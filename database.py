@@ -1,5 +1,4 @@
 # INIT GENERAL IMPORTS
-
 import sqlite3
 
 # BOT PROFILES AND ACCOUNT FUNCTIONS
@@ -523,3 +522,12 @@ def drop_table(table_name):
     c.execute(f'DROP TABLE "{table_name}"')
     conn.commit()
     conn.close()
+
+# CREATE ALL DB TABLES
+def create_all_db_tables():
+    create_bot_table()
+    create_artist_table()
+    create_tracks_table()
+    create_bot_following_artists_table()
+    create_liked_tracks_table()
+    create_track_reposts_table()

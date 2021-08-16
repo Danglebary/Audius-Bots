@@ -1,5 +1,8 @@
+# INIT GENERAL IMPORTS
 import time, random
 
+# INIT CUSTOM IMPORTS
+from config import *
 from database import insert_new_liked_track_in_db, query_liked_track_ids_by_bot_id
 
 #!! MAKE SURE BOT IS ALREADY ON TRACK PAGE BEFORE CALLING THIS FUNCTION !!
@@ -23,7 +26,7 @@ def bot_like_currently_playing_track(browser, bot_id, track_id):
         print(f'BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}')
         try:
             time.sleep(random.uniform(0.5, 1))
-            like_button = browser.find_element_by_xpath('//*[@id="root"]/div/div[5]/div[2]/div/div[3]/div[1]/span/div')
+            like_button = browser.find_element_by_xpath(track_like_current_playing_xPath)
             if like_button:
                 like_button.click()
                 print(f'BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}')
@@ -44,7 +47,7 @@ def bot_like_track_on_track_page_not_playing(browser, bot_id, track_id):
         print(f'BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}')
         try:
             time.sleep(random.uniform(0.5, 1))
-            like_button = browser.find_element_by_xpath('//button[@name="favorite"]')
+            like_button = browser.find_element_by_xpath(track_like_from_track_page_xPath)
             if like_button:
                 like_button.click()
                 print(f'BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}')

@@ -11,7 +11,7 @@ from database import *
 # FETCH ARTIST WITH {USERNAME} FROM AUDIUS API, 
 # THEN ADD THE RESULTING ARTIST AND ARTIST DATA TO DB
 
-def fetch_and_insert_new_artist(user_name):
+def fetch_and_insert_new_artist_by_username(user_name):
     artist_data = get_all_user_data_by_user_name(user_name)
     insert_new_artist_in_db(artist_data)
 

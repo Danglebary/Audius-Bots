@@ -1,9 +1,7 @@
 # INIT GENERAL IMPORTS
-
 import time, random
 
 # INIT CUSTOM IMPORTS
-
 from setup_browser import init_browser_headless, init_browser_headful
 from bot_audius_login import bot_login
 from bot_stream import bot_stream_routine

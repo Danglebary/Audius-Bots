@@ -1,4 +1,7 @@
+# DISCLAIMER ! THIS FUNCTIONALITY IS NOT COMPLETE !
+
 # INIT CUSTOM IMPORTS
+from config import *
 from database import insert_bot_new_artist_follow_in_db, query_bot_following_artists_by_bot_id
 
 # CHECK TO SEE IF BOT ACCOUNT WITH {bot_id} IS FOLLOWING ARTIST WITH {artist_id}
@@ -27,7 +30,7 @@ def bot_follow_artist_on_artist_page(browser, bot_id, artist_id):
         print(f'BOT CHECK ARTIST FOLLOW : Bot {bot_id} does not already follow artist {artist_id}')
         # TRY TO FOLLOW ARTIST WITH {artist_id}, OR HANDLE ERRORS
         try:
-            follow_button = browser.find_element_by_xpath('')
+            follow_button = browser.find_element_by_xpath(artist_follow_button_xPath)
             if follow_button:
                 # FOLLOW BUTTON FOUND, CLICK TO FOLLOW ARTIST
                 follow_button.click()

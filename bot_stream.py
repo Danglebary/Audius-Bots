@@ -1,16 +1,14 @@
 # INIT GENERAL IMPORTS
-
 import time, random, math
 
 # INIT SELENIUM IMPORTS
-
+from config import *
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 # INIT CUSTOM IMPORTS
-
+from config import *
 from database import query_artist_id_by_name, query_tracks_by_artist, query_all_tracks
-
 from bot_like_track import bot_like_track_on_track_page_not_playing
 from bot_repost_track import bot_repost_track_on_track_page
 
@@ -53,7 +51,7 @@ def bot__like_repost_logic(browser, bot_id, track_id):
 # FUNCTION TO NAVIGATE TO SPECIFIED TRACK AUDIUS PAGE,
 # AND STREAM SPECIFIED TRACK
 
-def bot_stream_track(browser, track, user_name, bot_id):
+def bot_stream_track(browser, track, user_name):
 
     track_title = track[2]
     track_duration = track[3]
@@ -63,7 +61,7 @@ def bot_stream_track(browser, track, user_name, bot_id):
     time.sleep(random.uniform(1, 2.1))
     print(f'STREAM BOT : {user_name} has found track url for track : {track_title}')
 
-    play_button = browser.find_element_by_xpath('//button[@name="play"]')
+    play_button = browser.find_element_by_xpath(track_play_buttom_xPath)
     if play_button:
         print(f'STREAM BOT : {user_name} has found play button')
         play_track(play_button, track_duration, user_name, track_title)
@@ -75,7 +73,7 @@ def bot_stream_track(browser, track, user_name, bot_id):
 # WHERE x IS AN EQUAL PORTION OF THE TOTAL NUMBER OF EXTRA STREAMS TO BE DISTRIBUTED
 # BASED ON x, A RANDOM SAMPLE OF EACH ARTISTS SONGS WILL BE SELECTED FOR STREAMING
 
-def get_special_tracks(special_stream_count, special_artists):
+def get_special_tracks(special_stream_count):
 
     each_artist_portion = math.ceil(special_stream_count / len(special_artists))
 
@@ -116,11 +114,11 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
     random.shuffle(all_tracks)
 
     # CALC TOTAL STREAMS, BDB STREAMS, AND RANDOM STREAMS
-    nTotalStreams = random.randint(180, len(all_tracks))
-    nSpecialStreams = math.ceil((nTotalStreams * 0.62))
+    nTotalStreams = random.randint(min_stream_per_loop, len(all_tracks))
+    nSpecialStreams = math.ceil((nTotalStreams * special_streaming_weight))
     nRandStreams = nTotalStreams - nSpecialStreams
 
-    special_tracks = get_special_tracks(nSpecialStreams, special_artists)
+    special_tracks = get_special_tracks(nSpecialStreams)
 
     if nTotalStreams != 0:
         print(f'STREAM BOT : {user_name} : {nTotalStreams} track(s) will be streamed this loop')

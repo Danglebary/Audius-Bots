@@ -1,3 +1,5 @@
+# INIT CUSTOM IMPORTS
+from config import *
 from database import insert_new_reposted_track_in_db, query_reposted_track_ids_by_bot_id
 
 #!! MAKE SURE BOT IS ALREADY ON TRACK PAGE BEFORE CALLING THIS FUNCTION    !!
@@ -24,7 +26,7 @@ def bot_repost_track_on_track_page(browser, bot_id, track_id):
     else:
         print(f'BOT REPOST TRACK : Bot {bot_id} has not already reposted track {track_id}')
         try:
-            repost_button = browser.find_element_by_xpath('//button[@name="repost"]')
+            repost_button = browser.find_element_by_xpath(track_repost_from_track_page_xPath)
             if repost_button:
                 repost_button.click()
                 print(f'BOT REPOST TRACK : Bot {bot_id} has clicked repost button on track {track_id}')
