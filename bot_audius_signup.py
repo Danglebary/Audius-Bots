@@ -2,7 +2,7 @@
 import time, random
 
 # INIT CUSTOM IMPORTS
-from xpathconfig import *
+from config import *
 from setup_browser import init_browser_headful, init_browser_headless
 from browser_interaction_helper_funcs import browser_navigate_and_wait, find_form_field_by_xpath_then_keystroke, find_button_by_xpath_and_click
 

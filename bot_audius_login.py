@@ -7,7 +7,7 @@ import time, random
 from selenium.webdriver.common.keys import Keys
 
 # INIT CUSTOM IMPORTS
-from xpathconfig import *
+from config import *
 from browser_interaction_helper_funcs import browser_navigate_and_wait, find_form_field_by_xpath_then_keystroke
 
 # FUNCTION FOR BOT TO LOGIN TO AUDIUS ACCOUNT
