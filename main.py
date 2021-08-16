@@ -1,9 +1,7 @@
 # DB FUNCTION IMPORTS
-
 from database import query_first_x_bots
 
 # FUNCTION IMPORTS
-
 from bot_routines import bot_routine_one
 
 # MULTI-THREADED MULTI-BOT PROCESS FUNCTION.

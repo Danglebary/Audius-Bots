@@ -1,5 +1,5 @@
 # INIT GENERAL IMPORTS
-import requests, json
+import requests
 
 # INIT CUSTOM IMPORTS
 from error_handler import handle_api_error, handle_resolve_data_error

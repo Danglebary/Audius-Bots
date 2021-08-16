@@ -1,6 +1,6 @@
 # INIT GENERAL IMPORTS
 
-import requests, json
+import requests
 
 # INIT CUSTOM IMPORTS
 
