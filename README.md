@@ -2,7 +2,7 @@
 
 Multi-threaded web scraping and automation tool for block-chain streaming service Audius.co.
 
-This project was a test to see if somewhat more "life-like" streaming bots could be made and used for streaming on the Audius platform. The bots stream more than just one artist, and more than just the targeted "Special artists", as to seem more human. currently setup to stream the "Special artists" for 62% of all uptime, randomly selecting songs from other artists to play in between. the more robust and diverse the catalog of extra artists, the more genuine the bots will seem.
+This project was a test to see if somewhat more "life-like" streaming bots could be made and used for streaming on the Audius platform. The bots stream more than just one artist, and more than just the targeted "Special artists", as to seem more human. Currently setup to stream the "Special artists" for 62% of all uptime, randomly selecting songs from other artists to play in between. The more robust and diverse the catalog of extra artists, the more genuine the bots will seem.
 
 # Disclaimers:
 
@@ -12,10 +12,8 @@ This project was a test to see if somewhat more "life-like" streaming bots could
 
 # Getting started:
 
-* First, make sure webdriver-manager is installed
-    * This can be done easily with "pip install webdriver-manager"
-* Make sure sqlite3 is installed
-    * Create a database named "data.db" in root directory
+* Make sure selenium is installed
+* Create an sqlite3 database named "data.db" in root directory
 * Open "config.py"
     * Set "init_nBots" to the number of bots you would like to initially create
     * Add Audius artist usernames to the list "init_extra_artists", this is a list of all artists outside of the special artists, the more artists the better.
