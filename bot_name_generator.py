@@ -2,7 +2,13 @@
 import time, string, random
 
 # INIT CUSTOM IMPORTS
-from config import *
+from config import (
+    bot_quick_name_url,
+    bot_quick_name_classname,
+    bot_username_url,
+    bot_username_search_button_xPath,
+    bot_username_search_field_xPath,
+)
 
 # FUNCTION TO FETCH RANDOM FULL NAME FROM ONLINE NAME GENERATOR,
 # AND RETURN FIRST AND LAST NAME
@@ -15,17 +21,21 @@ def fetch_name(browser):
     last_name = full_name_split[1]
     return (first_name, last_name)
 
+
 # FUNCTION TO FETCH RANDOM USERNAME FROM ONLINE USERNAME GENERATOR,
 # AND RETURN USERNAME
 def fetch_username(browser, name):
     browser.get(bot_username_url)
     search_box = browser.find_element_by_xpath(bot_username_search_field_xPath)
     search_box.click()
-    search_box.send_keys(f'{name}')
+    search_box.send_keys(f"{name}")
     time.sleep(0.5)
     browser.find_element_by_xpath(bot_username_search_button_xPath).click()
-    user_name = browser.find_element_by_xpath(f'//*[contains(@id, "{name}")]').text
+    user_name = browser.find_element_by_xpath(
+        f'//*[contains(@id, "{name}")]'
+    ).text
     return user_name
+
 
 # FUNCTION TO FETCH MULTIPLE USERNAMES FROM ONLINE USERNAME GENERATOR,
 # JOINING RANDOM USERNAMES IN RANDOM ORDER,
@@ -37,6 +47,6 @@ def create_user_name(browser, user_name):
     user_name_extra_list = []
     for _ in range(nDigits):
         user_name_extra_list.append(random.choice(user_name_extras))
-    user_name_extra_string = ''.join(user_name_extra_list)
+    user_name_extra_string = "".join(user_name_extra_list)
     user_name_final = user_name_raw + user_name_extra_string
     return user_name_final

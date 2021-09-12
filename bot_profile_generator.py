@@ -5,18 +5,19 @@ import random
 from bot_name_generator import fetch_name, create_user_name
 from bot_password_generator import gen_bot_pass
 from bot_birthday_generator import gen_birthdate
-from setup_browser import init_browser_headful, init_browser_headless
-from database import create_bot_table, query_all_bots, insert_new_bot_in_db, drop_table, query_first_x_bots
+from setup_browser import init_browser_headless
+from database import insert_new_bot_in_db
 
 # FUNCTION TO CREATE EMAIL ADDRESS FOR BOT FROM ITS {user_name}
 def choose_email(user_name):
-    email = ''
+    email = ""
     randN = random.uniform(0.0, 1.0)
     if randN >= 0.5:
-        email = f'{user_name}@outlook.com'
+        email = f"{user_name}@outlook.com"
     else:
-        email = f'{user_name}@hotmail.com' 
+        email = f"{user_name}@hotmail.com"
     return email
+
 
 # FUNCTION TO GENERATE ANY NUMBER OF BOT PROFILES RANDOMLY
 def gen_bot_data(nBots):
@@ -38,7 +39,7 @@ def gen_bot_data(nBots):
         try:
             insert_new_bot_in_db(bot_data)
             # NEW BOT PROFILE HAS BEEN INSERTED INTO DB, EXIT BROWSER
-            print(f'bot number {x} successfully written to db')
+            print(f"bot number {x} successfully written to db")
             browser.quit()
         except Exception as e:
             # NEW BOT PROFILE COULD NOT BE INSERTED INTO DB, HANDLE ERROR

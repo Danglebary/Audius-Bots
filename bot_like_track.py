@@ -2,12 +2,19 @@
 import time, random
 
 # INIT CUSTOM IMPORTS
-from config import *
-from database import insert_new_liked_track_in_db, query_liked_track_ids_by_bot_id
+from config import (
+    track_like_current_playing_xPath,
+    track_like_from_track_page_xPath,
+)
+from database import (
+    insert_new_liked_track_in_db,
+    query_liked_track_ids_by_bot_id,
+)
 
 #!! MAKE SURE BOT IS ALREADY ON TRACK PAGE BEFORE CALLING THIS FUNCTION !!
 #!! OR MAKE SURE BOT IS ACTIVELY PLAYING THE TRACK THAT SHOULD BE LIKED !!
 #!! ALSO MAKE SURE BOT HAS NOT ALREADY LIKED THIS SPECIFIC TRACK        !!
+
 
 def bot_check_liked_track_in_db(bot_id, track_id):
     bot_likes = query_liked_track_ids_by_bot_id(bot_id)
@@ -18,43 +25,62 @@ def bot_check_liked_track_in_db(bot_id, track_id):
             else:
                 return False
 
+
 def bot_like_currently_playing_track(browser, bot_id, track_id):
     bot_already_liked = bot_check_liked_track_in_db(bot_id, track_id)
     if bot_already_liked == True:
-        print(f'BOT LIKE TRACK ERROR : Bot {bot_id} has already liked track {track_id}')
+        print(
+            f"BOT LIKE TRACK ERROR : Bot {bot_id} has already liked track {track_id}"
+        )
     else:
-        print(f'BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}')
+        print(
+            f"BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}"
+        )
         try:
             time.sleep(random.uniform(0.5, 1))
-            like_button = browser.find_element_by_xpath(track_like_current_playing_xPath)
+            like_button = browser.find_element_by_xpath(
+                track_like_current_playing_xPath
+            )
             if like_button:
                 like_button.click()
-                print(f'BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}')
+                print(
+                    f"BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}"
+                )
                 try:
                     insert_new_liked_track_in_db(bot_id, track_id)
                 except Exception as e:
                     print(e)
             else:
-                print(f'BOT LIKE TRACK ERROR : Bot {bot_id} could not find like button for track {track_id}')
+                print(
+                    f"BOT LIKE TRACK ERROR : Bot {bot_id} could not find like button for track {track_id}"
+                )
         except Exception as e:
             print(e)
+
 
 def bot_like_track_on_track_page_not_playing(browser, bot_id, track_id):
     bot_already_liked = bot_check_liked_track_in_db(bot_id, track_id)
     if bot_already_liked == True:
-        print(f'BOT LIKE TRACK ERROR : Bot {bot_id} has already liked track {track_id}')
+        print(
+            f"BOT LIKE TRACK ERROR : Bot {bot_id} has already liked track {track_id}"
+        )
     else:
-        print(f'BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}')
+        print(
+            f"BOT LIKE TRACK : Bot {bot_id} has not already liked track {track_id}"
+        )
         try:
             time.sleep(random.uniform(0.5, 1))
-            like_button = browser.find_element_by_xpath(track_like_from_track_page_xPath)
+            like_button = browser.find_element_by_xpath(
+                track_like_from_track_page_xPath
+            )
             if like_button:
                 like_button.click()
-                print(f'BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}')
+                print(
+                    f"BOT LIKE TRACK : Bot {bot_id} has clicked like button on track {track_id}"
+                )
             try:
                 insert_new_liked_track_in_db(bot_id, track_id)
             except Exception as e:
                 print(e)
         except Exception as e:
             print(e)
-

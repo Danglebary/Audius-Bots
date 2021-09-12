@@ -1,14 +1,18 @@
 # INIT GENERAL IMPORTS
 import time, random, math
 
-# INIT SELENIUM IMPORTS
-from config import *
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-
 # INIT CUSTOM IMPORTS
-from config import *
-from database import query_artist_id_by_name, query_tracks_by_artist, query_all_tracks
+from config import (
+    track_play_buttom_xPath,
+    special_artists,
+    min_stream_per_loop,
+    special_streaming_weight,
+)
+from database import (
+    query_artist_id_by_name,
+    query_tracks_by_artist,
+    query_all_tracks,
+)
 from bot_like_track import bot_like_track_on_track_page_not_playing
 from bot_repost_track import bot_repost_track_on_track_page
 
@@ -16,18 +20,25 @@ from bot_repost_track import bot_repost_track_on_track_page
 # ! SHOULD UPDATE THIS TO PLAY TRACK FOR EITHER THE COMPLETE DURATION,
 #   OR FOR A RANDOMLY CHOSEN DURATION BASED ON THE COMPLETE DURATION OF THE TRACK !
 
+
 def play_track(play_button, track_duration, user_name, track_title):
 
     dur = track_duration
-    print(f'STREAM BOT : {user_name} is streaming track {track_title} for {dur} seconds')
+    print(
+        f"STREAM BOT : {user_name} is streaming track {track_title} for {dur} seconds"
+    )
     play_button.click()
     time.sleep(dur)
-    print(f'STREAM BOT : {user_name} has completed streaming track {track_title}')
+    print(
+        f"STREAM BOT : {user_name} has completed streaming track {track_title}"
+    )
+
 
 # FUNCTION FOR BOT TO CHOOSE RANDOMLY TO TRY LIKING OR REPOSTING ANY GIVEN TRACK
 # IF {like_seed} IS LESS THAN 0.61, BOT WILL NOT LIKE TRACK,
 # IF BOT DOES NOT LIKE TRACK, IF {repost_seed} IS GREATER THAN 0.62, BOT WILL REPOST TRACK
 # IF {like_seed} IS GREATER THAN 0.9, BOT WILL BOTH LIKE AND REPOST THE TRACK
+
 
 def bot__like_repost_logic(browser, bot_id, track_id):
     like_seed = random.uniform(0.0, 1.0)
@@ -48,8 +59,10 @@ def bot__like_repost_logic(browser, bot_id, track_id):
         else:
             pass
 
+
 # FUNCTION TO NAVIGATE TO SPECIFIED TRACK AUDIUS PAGE,
 # AND STREAM SPECIFIED TRACK
+
 
 def bot_stream_track(browser, track, user_name):
 
@@ -59,23 +72,29 @@ def bot_stream_track(browser, track, user_name):
 
     browser.get(track_url)
     time.sleep(random.uniform(1, 2.1))
-    print(f'STREAM BOT : {user_name} has found track url for track : {track_title}')
+    print(
+        f"STREAM BOT : {user_name} has found track url for track : {track_title}"
+    )
 
     play_button = browser.find_element_by_xpath(track_play_buttom_xPath)
     if play_button:
-        print(f'STREAM BOT : {user_name} has found play button')
+        print(f"STREAM BOT : {user_name} has found play button")
         play_track(play_button, track_duration, user_name, track_title)
     else:
         pass
+
 
 # FUNCTION TO RETRIEVE DESIRED "extra streamed" ARISTS TRACKS,
 # EACH ARTIST WILL GAIN x STREAMS THIS LOOP,
 # WHERE x IS AN EQUAL PORTION OF THE TOTAL NUMBER OF EXTRA STREAMS TO BE DISTRIBUTED
 # BASED ON x, A RANDOM SAMPLE OF EACH ARTISTS SONGS WILL BE SELECTED FOR STREAMING
 
+
 def get_special_tracks(special_stream_count):
 
-    each_artist_portion = math.ceil(special_stream_count / len(special_artists))
+    each_artist_portion = math.ceil(
+        special_stream_count / len(special_artists)
+    )
 
     all_special_tracks_list = []
 
@@ -84,12 +103,17 @@ def get_special_tracks(special_stream_count):
         special_artist_tracks = query_tracks_by_artist(special_artist_id)
 
         if len(special_artist_tracks) >= each_artist_portion:
-            all_special_tracks_list.append(random.sample(special_artist_tracks, k=each_artist_portion))
+            all_special_tracks_list.append(
+                random.sample(special_artist_tracks, k=each_artist_portion)
+            )
         else:
-            all_special_tracks_list.append(random.choices, k=each_artist_portion)
+            all_special_tracks_list.append(
+                random.choices, k=each_artist_portion
+            )
 
     random.shuffle(all_special_tracks_list)
     return all_special_tracks_list
+
 
 # FUNCTION TO BE "brains" OF THE STREAMING OPERATION.
 
@@ -108,6 +132,7 @@ def get_special_tracks(special_stream_count):
 # RANDOMLY CHOOSE TO PLAY A RANDOM TRACK FROM "all_tracks" or from "extra streamed" ARTISTS LIST
 # LOOP UNTIL THE STREAM COUNT HAS REACHED TOTAL AMOUNT OF STREAMS FOR THE LOOP
 
+
 def bot_stream_routine(browser, user_name, bot_id, special_artists):
     # DB TRACK LISTS
     all_tracks = query_all_tracks()
@@ -121,9 +146,15 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
     special_tracks = get_special_tracks(nSpecialStreams)
 
     if nTotalStreams != 0:
-        print(f'STREAM BOT : {user_name} : {nTotalStreams} track(s) will be streamed this loop')
-        print(f'STREAM BOT : {user_name} : BadDayBound will recieve {nSpecialStreams} stream(s) this loop')
-        print(f'STREAM BOT : {user_name} : {nRandStreams} stream(s) will be graciously given to random people!')
+        print(
+            f"STREAM BOT : {user_name} : {nTotalStreams} track(s) will be streamed this loop"
+        )
+        print(
+            f"STREAM BOT : {user_name} : BadDayBound will recieve {nSpecialStreams} stream(s) this loop"
+        )
+        print(
+            f"STREAM BOT : {user_name} : {nRandStreams} stream(s) will be graciously given to random people!"
+        )
 
         total_streams_remaining = nTotalStreams
         special_streams_remaining = nSpecialStreams
@@ -161,4 +192,6 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
                         pass
 
     else:
-        print(f'STREAM BOT : bot has chosen to not stream any tracks this loop')
+        print(
+            f"STREAM BOT : bot has chosen to not stream any tracks this loop"
+        )
