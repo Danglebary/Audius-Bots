@@ -7,8 +7,11 @@ from error_handler import handle_api_error, handle_resolve_data_error
 # INIT URL REQUEST PARAMS
 headers = {"Accept": "application/json"}
 
+# TYPES
+ArtistData = tuple[str, str, str, int, int]
+
 # UTILITY FUNCTIONS
-def search_user_by_username(user_name: str) -> dict:
+def search_artist_by_username(user_name: str) -> dict:
     try:
         r = requests.get(
             "https://discoveryprovider3.audius.co/v1/users/search",
@@ -21,7 +24,7 @@ def search_user_by_username(user_name: str) -> dict:
         handle_api_error(error_data, 1)
 
 
-def search_user_favorites(user_id: str) -> list:
+def search_artist_favorites(user_id: str) -> list:
     try:
         r = requests.get(
             f"https://discoveryprovider3.audius.co/v1/users/{user_id}/favorites",
@@ -35,17 +38,19 @@ def search_user_favorites(user_id: str) -> list:
 
 
 # MAIN FUNCTIONS
-def get_all_user_data_by_user_name(
+def get_all_artist_data_by_user_name(
     user_name: str,
 ) -> tuple[str, str, int, int]:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         artist_id: str = r["id"]
+        artist_handle: str = r["handle"]
         following_count: int = r["followee_count"]
         follower_count: int = r["follower_count"]
-        artist_data: tuple[str, str, int, int] = (
+        artist_data: ArtistData = (
             artist_id,
             user_name,
+            artist_handle,
             following_count,
             follower_count,
         )
@@ -55,9 +60,9 @@ def get_all_user_data_by_user_name(
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_id_by_username(user_name: str) -> str:
+def get_artist_id_by_username(user_name: str) -> str:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         result: str = r["id"]
         return result
     except Exception:
@@ -65,9 +70,9 @@ def get_user_id_by_username(user_name: str) -> str:
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_follower_count_by_username(user_name: str) -> int:
+def get_artist_follower_count_by_username(user_name: str) -> int:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         result: int = r["follower_count"]
         return result
     except Exception:
@@ -75,9 +80,9 @@ def get_user_follower_count_by_username(user_name: str) -> int:
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_following_count_by_username(user_name: str) -> int:
+def get_artist_following_count_by_username(user_name: str) -> int:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         result: int = r["followee_count"]
         return result
     except Exception:
@@ -85,9 +90,9 @@ def get_user_following_count_by_username(user_name: str) -> int:
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_track_count_by_username(user_name: str) -> int:
+def get_artist_track_count_by_username(user_name: str) -> int:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         result: int = r["track_count"]
         return result
     except Exception:
@@ -95,9 +100,9 @@ def get_user_track_count_by_username(user_name: str) -> int:
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_album_count_by_username(user_name: str) -> int:
+def get_artist_album_count_by_username(user_name: str) -> int:
     try:
-        r = search_user_by_username(user_name)
+        r = search_artist_by_username(user_name)
         result: int = r["album_count"]
         return result
     except Exception:
@@ -105,10 +110,10 @@ def get_user_album_count_by_username(user_name: str) -> int:
         handle_resolve_data_error(error_data, 3)
 
 
-def get_user_favorites_count_by_username(user_name: str) -> int:
+def get_artist_favorites_count_by_username(user_name: str) -> int:
     try:
-        user_id = get_user_id_by_username(user_name)
-        favorites = search_user_favorites(user_id)
+        user_id = get_artist_id_by_username(user_name)
+        favorites = search_artist_favorites(user_id)
         result = len(favorites)
         return result
     except Exception:
