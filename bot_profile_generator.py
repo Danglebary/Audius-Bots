@@ -1,5 +1,4 @@
 # General imports
-from custom_types import BotData
 from random import uniform
 from selenium.webdriver.chrome.webdriver import WebDriver
 
@@ -31,7 +30,7 @@ def gen_bot_data(nBots: int):
         first_name: str = name_data[0].lower()
         last_name: str = name_data[1].lower()
         user_name: str = create_user_name(
-            browser=browser, user_name=first_name
+            browser=browser, first_name=first_name
         )
         password: str = gen_bot_pass()
         dob: str = gen_birthdate(max_age=30)
