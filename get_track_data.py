@@ -3,7 +3,7 @@ import requests
 
 # INIT CUSTOM IMPORTS
 from error_handler import handle_api_error, handle_resolve_data_error
-from get_artist_data import get_user_id_by_username
+from get_artist_data import get_artist_id_by_username
 from custom_types import TrackData
 
 # INIT URL REQUEST PARAMS
@@ -41,10 +41,10 @@ def request_track_by_id(track_id: str) -> dict:
 # MAIN FUNCTIONS
 
 
-def get_user_tracks_by_id(user_name: str) -> list:
+def get_artist_tracks_by_id(user_name: str) -> list:
     try:
         track_list = []
-        user_id: str = get_user_id_by_username(user_name)
+        user_id: str = get_artist_id_by_username(user_name)
         tracks = request_user_tracks_by_id(user_id)
         for track in tracks:
             track_data: str = track["id"]
@@ -168,7 +168,7 @@ def get_track_artist_by_id(track_id: str) -> str:
 
 
 def get_user_total_tracks_play_count(user_name: str) -> int:
-    track_list = get_user_tracks_by_id(user_name)
+    track_list = get_artist_tracks_by_id(user_name)
     track_plays: list[int] = []
     for track in track_list:
         plays: int = get_track_play_count_by_id(track)
