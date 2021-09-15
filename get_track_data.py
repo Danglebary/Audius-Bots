@@ -55,9 +55,7 @@ def get_artist_tracks_by_id(user_name: str) -> list[str]:
         handle_resolve_data_error(error_data, 2)
 
 
-def get_all_track_data_by_id(
-    track_id: str,
-) -> TrackData:
+def get_all_track_data_by_id(track_id: str) -> TrackData:
     try:
         r: dict = request_track_by_id(track_id)
         artist_id: str = r["user"]["id"]
@@ -69,17 +67,17 @@ def get_all_track_data_by_id(
         track_faves: int = r["favorite_count"]
         track_reposts: int = r["repost_count"]
 
-        track_data: TrackData = (
-            track_id,
-            artist_id,
-            track_title,
-            track_duration,
-            track_genre,
-            track_mood,
-            track_plays,
-            track_faves,
-            track_reposts,
-        )
+        track_data: TrackData = {
+            "track_id": track_id,
+            "artist_id": artist_id,
+            "track_title": track_title,
+            "track_duration": track_duration,
+            "track_genre": track_genre,
+            "track_mood": track_mood,
+            "track_plays": track_plays,
+            "track_faves": track_faves,
+            "track_reposts": track_reposts,
+        }
 
         return track_data
     except Exception:

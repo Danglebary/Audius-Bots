@@ -1,67 +1,72 @@
-# INIT GENERAL IMPORTS
-import time, random
-
-# INIT CUSTOM IMPORTS
-from error_handler import handle_browser_navigation_error, handle_browser_element_xpath_keystroke_error, handle_browser_element_xpath_click_error
-
-# INIT SELENIUM IMPORTS
+# General imports
+from time import sleep
+from random import uniform
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 
-# INIT WAIT MIN AND MAX VARIABLES (in seconds)
-wait_navigate_min = 1.3
-wait_navigate_max = 5.24
+# Custom imports
+from error_handler import (
+    handle_browser_navigation_error,
+    handle_browser_element_xpath_keystroke_error,
+    handle_browser_element_xpath_click_error,
+)
 
-wait_keystroke_min = 0.1
-wait_keystroke_max = 0.97
+# wait min/max variables (in seconds)
+WAIT_NAVIGATE_MIN = 1.3
+WAIT_NAVIGATE_MAX = 5.24
 
-wait_task_min = 3.1
-wait_task_max = 12.1
+WAIT_KEYSTROKE_MIN = 0.1
+WAIT_KEYSTROKE_MAX = 0.97
+
+WAIT_TASK_MIN = 3.1
+WAIT_TASK_MAX = 12.1
 
 wait_enter = 20
 
-# TRY TO NAVIGATE TO URL, THEN WAIT... OR HANDLE ERRORS
-def browser_navigate_and_wait(browser, url, bot_name):
-    # TRY TO NAVIGATE TO URL, THEN WAIT
+# Try to navigate to url, then wait... or handle errors!
+def browser_navigate_and_wait(
+    browser: WebDriver, url: str, bot_user_name: str
+) -> None:
     try:
         browser.get(url)
-        print(f'{bot_name} : NAVIGATION - navigated to {url}')
-        time.sleep(random.uniform(1.3, 4.6))
+        print(f"{bot_user_name} : NAVIGATION - navigated to {url}")
+        sleep(uniform(WAIT_NAVIGATE_MIN, WAIT_NAVIGATE_MAX))
     except Exception:
-        # HANDLE ERROR
         error_data = url
-        handle_browser_navigation_error(bot_name, error_data, 1)
+        handle_browser_navigation_error(bot_user_name, error_data, 1)
 
-# TRY TO FIND ELEMENT OF FORM, CLICK, THEN INPUT DATA... OR HANDLE ERRORS
-def find_form_field_by_xpath_then_keystroke(browser, xPath, data, bot_name, enter):
+
+# Try to find input element of form, click to focus form input element,
+#   then input data... or handle errors!
+def find_form_field_by_xpath_then_keystroke(
+    browser: WebDriver, xPath: str, data: str, bot_user_name: str, enter: bool
+):
     try:
         element = browser.find_element_by_xpath(xPath)
         if element:
-            # ELEMENT FOUND, CLICK TO SET ACTIVE
             element.click()
-            for x in data:
-                element.send_keys(x) 
-                # KEY STROKE COMPLETE, WAIT BEFORE NEXT KEY STROKE
-                time.sleep(random.uniform(wait_keystroke_min, wait_keystroke_max))           
-            # DATA ENTERED INTO ELEMENT SUCCESSFULLY, WAIT BEFORE NEXT TASK
-            time.sleep(random.uniform(wait_task_min, wait_task_max)) 
-            # CHECK TO SEE IF ENTER KEY SHOULD BE PRESSED, IF TRUE, PRESS ENETER
+            for char in data:
+                element.send_keys(char)
+                sleep(uniform(WAIT_KEYSTROKE_MIN, WAIT_KEYSTROKE_MAX))
+            sleep(uniform(WAIT_TASK_MIN, WAIT_TASK_MAX))
+            # Check to see if enter key should be clicked, and send Enter key if True
             if enter == True:
                 element.send_keys(Keys.ENTER)
-                time.sleep(20)
-            print(f'{bot_name} : BROWSER - entered {data} into element with xPath "{xPath}"')  
+                sleep(20)
+            print(
+                f'{bot_user_name} : BROWSER - entered {data} into element with xPath "{xPath}"'
+            )
         else:
-            # ELEMENT COULD NOT BE FOUND OR DOESN'T EXIST, RAISE ERROR
-            raise ValueError(f'element with xPath {xPath} could not be found')
+            # Element could not be found or doesn't exist, raise error
+            raise ValueError(f"element with xPath {xPath} could not be found")
     except (Exception, ValueError) as error:
-        # HANDLE ERRORS
-        handle_browser_element_xpath_keystroke_error(bot_name, error, 1)
+        handle_browser_element_xpath_keystroke_error(bot_user_name, error, 1)
+
 
 def find_button_by_xpath_and_click(browser, xPath, bot_name):
     try:
         browser.find_element_by_xpath(xPath).click()
-        # ELEMENT FOUND AND CLICKED, WAIT BEFORE NEXT TASK
-        time.sleep(random.uniform(wait_task_min, wait_task_max))
+        sleep(uniform(WAIT_TASK_MIN, WAIT_TASK_MAX))
     except Exception:
-        # HANDLE ERRORS
-        error_data = f'element with xPath {xPath} could not be found, or could not be clicked'
+        error_data = f"element with xPath {xPath} could not be found, or could not be clicked"
         handle_browser_element_xpath_click_error(bot_name, error_data, 1)

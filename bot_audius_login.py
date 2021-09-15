@@ -1,24 +1,35 @@
-# INIT CUSTOM IMPORTS
+# General imports
+from selenium.webdriver.chrome.webdriver import WebDriver
+
+# Custom imports
 from config import sign_in_url, sign_in_email_xPath, sign_in_password_xPath
 from browser_interaction_helper_funcs import (
     browser_navigate_and_wait,
     find_form_field_by_xpath_then_keystroke,
 )
 
-# FUNCTION FOR BOT TO LOGIN TO AUDIUS ACCOUNT
+# Function for bot to login to Audius account
 
 
-def bot_login(browser, user_name, email, password):
-
-    # TRY TO RETRIEVE AUDIUS LOGIN PAGE IN BROWSER, OR HANDLE ANY ERRORS
-    browser_navigate_and_wait(browser, sign_in_url, user_name)
-
-    # TRY TO FILL EMAIL FIELD OF LOGIN FORM, OR HANDLE ANY ERRORS
-    find_form_field_by_xpath_then_keystroke(
-        browser, sign_in_email_xPath, user_name, user_name, False
+def bot_login(
+    browser: WebDriver, bot_user_name: str, email: str, password: str
+):
+    browser_navigate_and_wait(
+        browser=browser, url=sign_in_url, bot_user_name=bot_user_name
     )
 
-    # TRY TO FILL PASSWORD FIELD OF LOGIN PAGE, OR HANDLE ANY ERRORS
     find_form_field_by_xpath_then_keystroke(
-        browser, sign_in_password_xPath, password, user_name, True
+        browser=browser,
+        xPath=sign_in_email_xPath,
+        data=bot_user_name,
+        bot_user_name=bot_user_name,
+        enter=False,
+    )
+
+    find_form_field_by_xpath_then_keystroke(
+        browser=browser,
+        xpath=sign_in_password_xPath,
+        data=password,
+        bot_user_name=bot_user_name,
+        enter=True,
     )
