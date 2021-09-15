@@ -4,6 +4,7 @@ import requests
 # INIT CUSTOM IMPORTS
 from error_handler import handle_api_error, handle_resolve_data_error
 from get_artist_data import get_user_id_by_username
+from custom_types import TrackData
 
 # INIT URL REQUEST PARAMS
 headers = {"Accept": "application/json"}
@@ -52,9 +53,6 @@ def get_user_tracks_by_id(user_name: str) -> list:
     except Exception:
         error_data = f"user tracks for user {user_name}"
         handle_resolve_data_error(error_data, 2)
-
-
-TrackData = tuple[str, str, str, int, str, str, int, int, int]
 
 
 def get_all_track_data_by_id(
