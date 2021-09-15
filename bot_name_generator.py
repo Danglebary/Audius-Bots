@@ -43,11 +43,11 @@ def fetch_username(browser: WebDriver, first_name: str) -> str:
 # FUNCTION TO FETCH MULTIPLE USERNAMES FROM ONLINE USERNAME GENERATOR,
 # JOINING RANDOM USERNAMES IN RANDOM ORDER,
 # AND RETURN FINAL USERNAME
-def create_user_name(browser: WebDriver, user_name: str) -> str:
+def create_user_name(browser: WebDriver, first_name: str) -> str:
     nDigits: int = 4
-    user_name_raw: str = fetch_username(browser, user_name)
+    user_name_raw: str = fetch_username(browser=browser, first_name=first_name)
     user_name_extras: str = digits
-    user_name_extra_list = []
+    user_name_extra_list: list[str] = []
     for _ in range(nDigits):
         user_name_extra_list.append(choice(user_name_extras))
     user_name_extra_string: str = "".join(user_name_extra_list)
