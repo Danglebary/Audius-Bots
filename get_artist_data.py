@@ -36,22 +36,22 @@ def search_artist_favorites(user_id: str) -> list:
 
 
 # MAIN FUNCTIONS
-def get_all_artist_data_by_user_name(
-    user_name: str,
-) -> ArtistData:
+def get_all_artist_data_by_user_name(user_name: str) -> ArtistData:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         artist_id: str = r["id"]
         artist_handle: str = r["handle"]
         following_count: int = r["followee_count"]
         follower_count: int = r["follower_count"]
-        artist_data: ArtistData = (
-            artist_id,
-            user_name,
-            artist_handle,
-            following_count,
-            follower_count,
-        )
+
+        artist_data: ArtistData = {
+            "artist_id": artist_id,
+            "user_name": user_name,
+            "artist_handle": artist_handle,
+            "following_count": following_count,
+            "follower_count": follower_count,
+        }
+
         return artist_data
     except Exception:
         error_data = f"user data from {user_name}"
@@ -60,7 +60,7 @@ def get_all_artist_data_by_user_name(
 
 def get_artist_id_by_username(user_name: str) -> str:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         result: str = r["id"]
         return result
     except Exception:
@@ -70,7 +70,7 @@ def get_artist_id_by_username(user_name: str) -> str:
 
 def get_artist_follower_count_by_username(user_name: str) -> int:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         result: int = r["follower_count"]
         return result
     except Exception:
@@ -80,7 +80,7 @@ def get_artist_follower_count_by_username(user_name: str) -> int:
 
 def get_artist_following_count_by_username(user_name: str) -> int:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         result: int = r["followee_count"]
         return result
     except Exception:
@@ -90,7 +90,7 @@ def get_artist_following_count_by_username(user_name: str) -> int:
 
 def get_artist_track_count_by_username(user_name: str) -> int:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         result: int = r["track_count"]
         return result
     except Exception:
@@ -100,7 +100,7 @@ def get_artist_track_count_by_username(user_name: str) -> int:
 
 def get_artist_album_count_by_username(user_name: str) -> int:
     try:
-        r = search_artist_by_username(user_name)
+        r: dict = search_artist_by_username(user_name)
         result: int = r["album_count"]
         return result
     except Exception:
@@ -110,9 +110,9 @@ def get_artist_album_count_by_username(user_name: str) -> int:
 
 def get_artist_favorites_count_by_username(user_name: str) -> int:
     try:
-        user_id = get_artist_id_by_username(user_name)
-        favorites = search_artist_favorites(user_id)
-        result = len(favorites)
+        user_id: str = get_artist_id_by_username(user_name)
+        favorites: list = search_artist_favorites(user_id)
+        result: int = len(favorites)
         return result
     except Exception:
         error_data = f"user favorites count for {user_name}"
