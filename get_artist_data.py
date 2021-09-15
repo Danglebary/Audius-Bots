@@ -3,12 +3,10 @@ import requests
 
 # INIT CUSTOM IMPORTS
 from error_handler import handle_api_error, handle_resolve_data_error
+from custom_types import ArtistData
 
 # INIT URL REQUEST PARAMS
 headers = {"Accept": "application/json"}
-
-# TYPES
-ArtistData = tuple[str, str, str, int, int]
 
 # UTILITY FUNCTIONS
 def search_artist_by_username(user_name: str) -> dict:
@@ -40,7 +38,7 @@ def search_artist_favorites(user_id: str) -> list:
 # MAIN FUNCTIONS
 def get_all_artist_data_by_user_name(
     user_name: str,
-) -> tuple[str, str, int, int]:
+) -> ArtistData:
     try:
         r = search_artist_by_username(user_name)
         artist_id: str = r["id"]
