@@ -27,14 +27,16 @@ def choose_email(user_name: str) -> str:
 def gen_bot_data(nBots: int):
     browser: WebDriver = init_browser_headless()
     for _ in range(nBots):
-        name_data: tuple[str, str] = fetch_name(browser)
+        name_data: tuple[str, str] = fetch_name(browser=browser)
         first_name: str = name_data[0].lower()
         last_name: str = name_data[1].lower()
-        user_name: str = create_user_name(browser, first_name)
-        password = gen_bot_pass()
-        dob: str = gen_birthdate(30)
-        email: str = choose_email(user_name)
-        bot_data: BotData = [
+        user_name: str = create_user_name(
+            browser=browser, user_name=first_name
+        )
+        password: str = gen_bot_pass()
+        dob: str = gen_birthdate(max_age=30)
+        email: str = choose_email(user_name=user_name)
+        bot_data: list[str] = [
             user_name,
             first_name,
             last_name,
@@ -42,10 +44,8 @@ def gen_bot_data(nBots: int):
             password,
             dob,
         ]
-
-        print(bot_data)
         try:
-            insert_new_bot_in_db(bot_data)
+            insert_new_bot_in_db(bot_data=bot_data)
             browser.quit()
         except Exception as e:
             print(e)
