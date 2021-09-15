@@ -10,21 +10,25 @@
 
 # AFTER THIS FILE HAS BEEN RAN, YOU CAN GO AHEAD AND RUN "main.py".
 
-# DISCLAIMER : 
+# DISCLAIMER :
 # IF ANYTHING IS MOST LIKELY TO FAIL OR ERROR IN THE MAIN
 # PROCESS, IT WILL BE XPATH LOCATIONS FOR FORM FIELDS AND BUTTONS.
-# THEY WILL LIKELY CHANGE UPON NEW UI UPDATES TO THE SITE, 
+# THEY WILL LIKELY CHANGE UPON NEW UI UPDATES TO THE SITE,
 # AND WILL MOST LIKELY TAKE A BIT OF UPKEEP.
 # THE FILE "config.py" HOLDS ALL OF THESE VARIABLES,
 # AS A SINGLE PLACE TO UPDATE THEM INSTEAD OF HAVING TO LOOK FOR THEM.
 
-# INIT CUSTOM IMPORTS
+# CUSTOM IMPORTS
 from config import init_nBots, init_extra_artists, special_artists
 from database import create_all_db_tables
 from bot_profile_generator import gen_bot_data
-from sync_db_data import fetch_and_insert_new_artist_by_username, sync_db_tracks_for_all_artists
+from sync_db_data import (
+    fetch_and_insert_new_artist_by_username,
+    sync_db_tracks_for_all_artists,
+)
 
-def first_setup():
+
+def first_setup() -> None:
     # CREATE DB TABLES
     create_all_db_tables()
     # CREATE AND ADD BOT DATAS TO DB
@@ -37,5 +41,6 @@ def first_setup():
         fetch_and_insert_new_artist_by_username(artist)
     # FETCH AND ADD TRACKS AND TRACK DATAS TO DB
     sync_db_tracks_for_all_artists()
+
 
 first_setup()
