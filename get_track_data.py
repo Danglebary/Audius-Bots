@@ -12,13 +12,13 @@ headers = {"Accept": "application/json"}
 # UTILITY FUNCTIONS
 
 
-def request_user_tracks_by_id(user_id: str) -> list:
+def request_user_tracks_by_id(user_id: str) -> list[dict]:
     try:
         r = requests.get(
             f"https://discoveryprovider3.audius.co/v1/users/{user_id}/tracks",
             headers=headers,
         )
-        result: list = r.json()["data"]
+        result: list[dict] = r.json()["data"]
         return result
     except Exception:
         error_data = f"user tracks for user ID {user_id}"
@@ -41,14 +41,14 @@ def request_track_by_id(track_id: str) -> dict:
 # MAIN FUNCTIONS
 
 
-def get_artist_tracks_by_id(user_name: str) -> list:
+def get_artist_tracks_by_id(user_name: str) -> list[str]:
     try:
-        track_list = []
+        track_list: list[str] = []
         user_id: str = get_artist_id_by_username(user_name)
-        tracks = request_user_tracks_by_id(user_id)
+        tracks: list[dict] = request_user_tracks_by_id(user_id)
         for track in tracks:
-            track_data: str = track["id"]
-            track_list.append(track_data)
+            track_id: str = track["id"]
+            track_list.append(track_id)
         return track_list
     except Exception:
         error_data = f"user tracks for user {user_name}"
