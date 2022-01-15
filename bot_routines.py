@@ -1,6 +1,6 @@
 # General imports
 from time import sleep, perf_counter
-from random import uniform
+from random import uniform, randint
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 
@@ -26,9 +26,6 @@ from bot_stream import bot_stream_routine
 # ! Args for routine are starmapped from main.py,
 #   meaning all BotData is unpacked, even if args values are not used !
 
-# ! HERE IS WHERE YOU ADD THE SPECIAL ARTISTS YOU WANT TO BE STREAMED MORE THAN OTHERS !
-special_artists = []
-
 
 def bot_routine_one(
     bot_id: int,
@@ -39,7 +36,7 @@ def bot_routine_one(
     password: str,
     dob: str,
 ):
-    wait_before_startup: float = uniform(0.0, 1800.0)
+    wait_before_startup: float = randint(0, 120)
     print(
         f"BOT_ROUTINE : Bot {user_name} will wait {wait_before_startup} second(s) before spinning up"
     )
@@ -49,7 +46,7 @@ def bot_routine_one(
     try:
         bot_login(
             browser=browser,
-            user_name=user_name,
+            bot_user_name=user_name,
             email=email,
             password=password,
         )
@@ -62,12 +59,7 @@ def bot_routine_one(
     except Exception as e:
         print(e)
     try:
-        bot_stream_routine(
-            browser=browser,
-            user_name=user_name,
-            bot_id=bot_id,
-            special_artists=special_artists,
-        )
+        bot_stream_routine(browser=browser, user_name=user_name)
     except Exception as e:
         print(e)
     browser.quit()
