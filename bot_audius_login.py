@@ -21,14 +21,14 @@ def bot_login(
     find_form_field_by_xpath_then_keystroke(
         browser=browser,
         xPath=sign_in_email_xPath,
-        data=bot_user_name,
+        data=email,
         bot_user_name=bot_user_name,
         enter=False,
     )
 
     find_form_field_by_xpath_then_keystroke(
         browser=browser,
-        xpath=sign_in_password_xPath,
+        xPath=sign_in_password_xPath,
         data=password,
         bot_user_name=bot_user_name,
         enter=True,
