@@ -8,6 +8,7 @@ from config import (
     min_stream_per_loop,
     special_streaming_weight,
 )
+from custom_types import TrackData
 from database import (
     query_artist_id_by_name,
     query_tracks_by_artist,
@@ -64,11 +65,17 @@ def bot__like_repost_logic(browser, bot_id, track_id):
 # AND STREAM SPECIFIED TRACK
 
 
-def bot_stream_track(browser, track, user_name):
+def bot_stream_track(browser, track: TrackData, user_name):
 
     track_title = track[2]
     track_duration = track[3]
     track_url = track[9]
+
+    if not track_url:
+        print(
+            f"STREAM BOT : {user_name} : track url does not exist for {track_title}"
+        )
+        return
 
     browser.get(track_url)
     time.sleep(random.uniform(1, 2.1))
@@ -108,7 +115,7 @@ def get_special_tracks(special_stream_count):
             )
         else:
             all_special_tracks_list.append(
-                random.choices, k=each_artist_portion
+                random.choices(special_artist_tracks, k=each_artist_portion)
             )
 
     random.shuffle(all_special_tracks_list)
@@ -133,7 +140,7 @@ def get_special_tracks(special_stream_count):
 # LOOP UNTIL THE STREAM COUNT HAS REACHED TOTAL AMOUNT OF STREAMS FOR THE LOOP
 
 
-def bot_stream_routine(browser, user_name, bot_id, special_artists):
+def bot_stream_routine(browser, user_name):
     # DB TRACK LISTS
     all_tracks = query_all_tracks()
     random.shuffle(all_tracks)
@@ -150,10 +157,10 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
             f"STREAM BOT : {user_name} : {nTotalStreams} track(s) will be streamed this loop"
         )
         print(
-            f"STREAM BOT : {user_name} : BadDayBound will recieve {nSpecialStreams} stream(s) this loop"
+            f"STREAM BOT : {user_name} : special artists will recieve {nSpecialStreams} stream(s) this loop"
         )
         print(
-            f"STREAM BOT : {user_name} : {nRandStreams} stream(s) will be graciously given to random people!"
+            f"STREAM BOT : {user_name} : {nRandStreams} stream(s) will be given to random people!"
         )
 
         total_streams_remaining = nTotalStreams
@@ -165,13 +172,13 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
             if rand_choice >= 0.5:
                 if special_streams_remaining != 0:
                     track = random.choice(special_tracks)
-                    bot_stream_track(browser, track, user_name, bot_id)
+                    bot_stream_track(browser, track, user_name)
                     special_streams_remaining -= 1
                     total_streams_remaining -= 1
                 else:
                     if rand_streams_remaining != 0:
                         track = random.choice(all_tracks)
-                        bot_stream_track(browser, track, user_name, bot_id)
+                        bot_stream_track(browser, track, user_name)
                         rand_streams_remaining -= 1
                         total_streams_remaining -= 1
                     else:
@@ -179,13 +186,13 @@ def bot_stream_routine(browser, user_name, bot_id, special_artists):
             else:
                 if rand_streams_remaining != 0:
                     track = random.choice(all_tracks)
-                    bot_stream_track(browser, track, user_name, bot_id)
+                    bot_stream_track(browser, track, user_name)
                     rand_streams_remaining -= 1
                     total_streams_remaining -= 1
                 else:
                     if special_streams_remaining != 0:
                         track = random.choice(special_tracks)
-                        bot_stream_track(browser, track, user_name, bot_id)
+                        bot_stream_track(browser, track, user_name)
                         special_streams_remaining -= 1
                         total_streams_remaining -= 1
                     else:
