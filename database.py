@@ -141,7 +141,7 @@ def query_artist_id_by_name(user_name: str) -> str:
     c = conn.cursor()
     c.execute(f'select * from artists WHERE artist_name="{user_name}"')
     r: ArtistData = c.fetchone()
-    uId: str = r["artist_id"]
+    uId: str = r[0]
     conn.close()
     return uId
 
@@ -151,7 +151,7 @@ def query_artist_name_by_id(user_id: str) -> str:
     c = conn.cursor()
     c.execute(f'select * from artists WHERE artist_id="{user_id}"')
     r: ArtistData = c.fetchone()
-    name: str = r["user_name"]
+    name: str = r[1]
     conn.close()
     return name
 
@@ -161,7 +161,7 @@ def query_all_artists_name() -> list[str]:
     c = conn.cursor()
     c.execute("select * from artists")
     r: list[ArtistData] = c.fetchall()
-    artist_list: list[str] = [artist["user_name"] for artist in r]
+    artist_list: list[str] = [artist[1] for artist in r]
     conn.close()
     return artist_list
 
@@ -171,7 +171,7 @@ def query_artist_handle_by_name(artist_name: str) -> str:
     c = conn.cursor()
     c.execute(f'select * from artists WHERE artist_name="{artist_name}"')
     r: ArtistData = c.fetchone()
-    handle: str = r["artist_handle"]
+    handle: str = r[2]
     conn.close()
     return handle
 
@@ -181,7 +181,7 @@ def query_artist_handle_by_id(artist_id: str) -> str:
     c = conn.cursor()
     c.execute(f'select * from artists WHERE artist_id="{artist_id}"')
     r: ArtistData = c.fetchone()
-    handle: str = r["artist_handle"]
+    handle: str = r[2]
     conn.close()
     return handle
 
