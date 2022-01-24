@@ -119,3 +119,7 @@ def sync_track_urls_to_db():
         print("got artist track_data_list")
         for data in track_datas_list:
             get_track_url(browser, data)
+
+
+if __name__ == "__main__":
+    sync_track_urls_to_db()

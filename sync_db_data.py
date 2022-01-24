@@ -35,8 +35,9 @@ def sync_db_tracks_for_all_artists() -> None:
     for user_name in artists_list:
         artist_track_list: list[str] = get_artist_tracks_by_id(user_name)
         for track_id in artist_track_list:
-            sleep(uniform(3.0, 15.0))
+            sleep(uniform(1.0, 3.0))
             fetched_track_data: TrackData = get_all_track_data_by_id(track_id)
+            print(fetched_track_data)
             db_id: TrackData = query_track_by_id(track_id)
             if db_id:
                 print(f"track {track_id} skipped : already in db")
@@ -48,3 +49,7 @@ def sync_db_tracks_for_all_artists() -> None:
         print(f"TOTAL NEW TRACKS SYNCED TO DB : {len(synced_tracks)}")
     else:
         print(f"NO NEW TRACKS TO SYNC")
+
+
+if __name__ == "__main__":
+    sync_db_tracks_for_all_artists()
