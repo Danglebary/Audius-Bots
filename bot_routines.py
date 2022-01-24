@@ -5,7 +5,7 @@ from random import uniform, randint
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 # Custom imports
-from setup_browser import init_browser_headless
+from setup_browser import init_browser_headful, init_browser_headless
 from bot_audius_login import bot_login
 from bot_stream import bot_stream_routine
 
@@ -36,7 +36,7 @@ def bot_routine_one(
     password: str,
     dob: str,
 ):
-    wait_before_startup: float = randint(0, 120)
+    wait_before_startup: float = randint(0, 40)
     print(
         f"BOT_ROUTINE : Bot {user_name} will wait {wait_before_startup} second(s) before spinning up"
     )
