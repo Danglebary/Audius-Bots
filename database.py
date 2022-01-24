@@ -12,8 +12,6 @@ from custom_types import (
 # BOT PROFILES AND ACCOUNT FUNCTIONS
 
 # CREATE BOTS DB TABLE
-
-
 def create_bot_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -34,8 +32,6 @@ def create_bot_table() -> None:
 
 
 # FETCH BOT DATA FROM DB
-
-
 def query_all_bots() -> list[BotData]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -64,8 +60,6 @@ def query_bot_by_user_name(user_name: str) -> BotData:
 
 
 # WRITE BOT DATA TO DB
-
-
 def insert_new_bot_in_db(bot_data: BotData) -> None:
     user_name = bot_data["user_name"]
     first_name = bot_data["first_name"]
@@ -96,8 +90,6 @@ def insert_new_bot_in_db(bot_data: BotData) -> None:
 # ARTIST PROFILES AND ACCOUNT FUNCTIONS
 
 # CREATE ARTISTS DB TABLE
-
-
 def create_artist_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -116,8 +108,6 @@ def create_artist_table() -> None:
 
 
 # FETCH ARTIST DATA FROM DB
-
-
 def query_all_artists() -> list[ArtistData]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -187,8 +177,6 @@ def query_artist_handle_by_id(artist_id: str) -> str:
 
 
 # WRITE ARTIST DATA TO DB
-
-
 def insert_new_artist_in_db(artist_data: ArtistData) -> None:
     artist_id: str = artist_data["artist_id"]
     artist_name: str = artist_data["user_name"]
@@ -218,8 +206,6 @@ def insert_new_artist_in_db(artist_data: ArtistData) -> None:
 # TRACK DATA AND FUNCTIONS
 
 # CREATE TRACKS DB TABLE
-
-
 def create_tracks_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -244,8 +230,6 @@ def create_tracks_table() -> None:
 
 
 # FETCH TRACK DATA FROM DB
-
-
 def query_all_tracks() -> list[TrackData]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -303,8 +287,6 @@ def query_all_track_urls() -> list[str]:
 
 
 # WRITE TRACK DATA TO DB
-
-
 def update_track_url_in_db(track_id: str, track_url: str) -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -326,7 +308,6 @@ def insert_new_track_in_db(track_data: TrackData) -> None:
     track_plays = track_data["track_plays"]
     track_faves = track_data["track_faves"]
     track_reposts = track_data["track_reposts"]
-    track_url = track_data["track_url"]
     try:
         conn = sqlite3.connect("data.db")
         c = conn.cursor()
@@ -340,8 +321,7 @@ def insert_new_track_in_db(track_data: TrackData) -> None:
                     "{track_mood}",
                     "{track_plays}",
                     "{track_faves}",
-                    "{track_reposts}",
-                    "{track_url}"
+                    "{track_reposts}"
                     )
                 """
         )
@@ -355,8 +335,6 @@ def insert_new_track_in_db(track_data: TrackData) -> None:
 # LIKED TRACKS TABLE AND FUNCTIONS
 
 # CREATE LIKED TRACKS TABLE
-
-
 def create_liked_tracks_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -374,8 +352,6 @@ def create_liked_tracks_table() -> None:
 
 
 # WRITE LIKED TRACKS DATA TO DB
-
-
 def insert_new_liked_track_in_db(bot_id, track_id: str) -> None:
     try:
         conn = sqlite3.connect("data.db")
@@ -397,8 +373,6 @@ def insert_new_liked_track_in_db(bot_id, track_id: str) -> None:
 
 
 # FETCH LIKED TRACKS DATA FROM DB
-
-
 def query_liked_track_ids_by_bot_id(bot_id: int) -> list[str]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -431,8 +405,6 @@ def query_all_liked_tracks() -> list[BotArtistRelationshipData]:
 # REPOSTED TRACKS TABLE AND FUNCTIONS
 
 # CREATE REPOSTED TRACKS TABLE
-
-
 def create_track_reposts_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -450,8 +422,6 @@ def create_track_reposts_table() -> None:
 
 
 # WRITE REPOSTED TRACKS DATA TO DB
-
-
 def insert_new_reposted_track_in_db(bot_id: int, track_id: str) -> None:
     try:
         conn = sqlite3.connect("data.db")
@@ -473,8 +443,6 @@ def insert_new_reposted_track_in_db(bot_id: int, track_id: str) -> None:
 
 
 # FETCH REPOSTED TRACKS DATA FROM DB
-
-
 def query_reposted_track_ids_by_bot_id(bot_id: int) -> list[str]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -507,8 +475,6 @@ def query_all_reposted_tracks() -> list[BotArtistRelationshipData]:
 # BOT ARTISTS FOLLOWING DATA AND FUNCTIONS
 
 # CREATE BOT ARTISTS FOLLOWING TABLE
-
-
 def create_bot_following_artists_table() -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -526,8 +492,6 @@ def create_bot_following_artists_table() -> None:
 
 
 # WRITE BOT FOLLOWING ARTISTS DATA TO DB
-
-
 def insert_bot_new_artist_follow_in_db(bot_id: int, artist_id: str) -> None:
     try:
         conn = sqlite3.connect("data.db")
@@ -546,8 +510,6 @@ def insert_bot_new_artist_follow_in_db(bot_id: int, artist_id: str) -> None:
 
 
 # FETCH BOT FOLLOWING ARTISTS DATA FROM DB
-
-
 def query_bot_following_artists_by_bot_id(bot_id: int) -> list[str]:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -582,8 +544,6 @@ def query_all_following_artists_data() -> list[BotArtistRelationshipData]:
 
 
 # DROP TABLES (BE CAREFUL WITH THIS!)
-
-
 def drop_table(table_name: str) -> None:
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
